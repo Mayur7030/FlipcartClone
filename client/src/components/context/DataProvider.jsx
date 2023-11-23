@@ -1,11 +1,15 @@
 import { createContext, useState } from "react";
 
-const DataContext = createContext(null);
+ export const DataContext = createContext(null);
 
-const DataProvider = () => {
-    const [account,toggleAccount] = useState('')
+const DataProvider = ({ children }) => {
+  const [account, toggleAccount] = useState("");
 
-  return <DataContext.Provider value={{account,toggleAccount}}></DataContext.Provider>;
+  return (
+    <DataContext.Provider value={{ account, toggleAccount }}>
+      {children}
+    </DataContext.Provider>
+  );
 };
 
-export default DataProvider
+export default DataProvider;

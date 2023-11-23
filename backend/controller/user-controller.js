@@ -15,3 +15,18 @@ export const usersignup = async (request, response) => {
     console.log("usersignup error", error);
   }
 };
+
+export const userlogin = async (request, response) => {
+  try {
+    const username = request.body.username;
+    const password = request.body.password;
+    let user = await User.findOne({ username: username, password: password });
+    if (user) {
+      return response.status(200).json({data:user});
+    } else {
+      return response.status(401).json("Invalid login");
+    }
+  } catch (error) {
+    response.status(500).json("error", error.message);
+  }
+};

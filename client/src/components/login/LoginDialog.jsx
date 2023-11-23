@@ -7,8 +7,8 @@ import {
   styled,
   Button,
 } from "@mui/material";
-import { authenticateSignUp } from "../service/api";
-import Datacontext from '../context/DataProvider'
+import { authenticateSignUp, authenticateLogin } from "../service/api";
+import { DataContext } from "../context/DataProvider";
 
 const Component = styled(Box)`
   height: 70vh;
@@ -71,6 +71,14 @@ const CreateAccount = styled(Typography)`
   cursor: pointer;
 `;
 
+const Error = styled(Typography)`
+  font-size: 10px;
+  color: #ff6161;
+  margin-top: 10px;
+  line-height: 0;
+  font-weight: 600;
+`;
+
 const accountinitialvalues = {
   login: {
     view: "login",
@@ -92,14 +100,24 @@ const signUpInitialValues = {
   phone: "",
 };
 
+const loginInitialValues = {
+  username: "",
+  password: "",
+};
+
 function LoginDialog({ open, setOpen }) {
+
   const [account, setAccount] = useState(accountinitialvalues.login);
   const [signup, setSignUp] = useState();
-  const {toggleAccount} = useContext(Datacontext)
+  const [login, setLogin] = useState(loginInitialValues);
+  const [error, setError] = useState(false);
+
+  const { toggleAccount } = useContext(DataContext);
 
   const handleClose = () => {
     setOpen(false);
     setAccount(accountinitialvalues.login);
+    setError(false);
   };
 
   const toggleSignUp = () => {
@@ -108,14 +126,29 @@ function LoginDialog({ open, setOpen }) {
 
   const onInputChange = (e) => {
     setSignUp({ ...signup, [e.target.name]: e.target.value });
-    // console.log(signup);
+  };
+  
+  const onValueChange = (e) => {
+    setLogin({ ...login, [e.target.name]: e.target.value });
   };
 
   const signUpUser = async () => {
     let respond = await authenticateSignUp(signup);
-    if(!respond) return;
+    if (!respond) return;
     handleClose();
-    toggleAccount(signup.firstname)
+    toggleAccount(signup.firstname);
+  };
+
+
+  const loginUser = async () => {
+    let response = await authenticateLogin(login);
+    console.log(response);
+    if (response.status === 200) {
+      handleClose();
+      toggleAccount(response.data.data.firstname);
+    } else {
+      setError(true);
+    }
   };
 
   return (
@@ -137,17 +170,24 @@ function LoginDialog({ open, setOpen }) {
               <Wrapper>
                 <TextField
                   variant="standard"
-                  label="Enter Email/Mobile Number"
+                  onChange={(e) => onValueChange(e)}
+                  name="username"
+                  label="Enter Username"
                 ></TextField>
+                {error && (
+                  <Error>Please Enter valid username or password</Error>
+                )}
                 <TextField
                   variant="standard"
+                  onChange={(e) => onValueChange(e)}
+                  name="password"
                   label="Enter password"
                 ></TextField>
                 <Text>
                   By continuing, you agree to Flipcart's Terms of use and
                   Privacy Policy.
                 </Text>
-                <LoginButton>Login</LoginButton>
+                <LoginButton onClick={loginUser}>Login</LoginButton>
                 <Typography style={{ textAlign: "center" }}>OR</Typography>
                 <Button>Request OTP</Button>
                 <CreateAccount
@@ -178,19 +218,19 @@ function LoginDialog({ open, setOpen }) {
                   onChange={(e) => onInputChange(e)}
                   name="username"
                 ></TextField>
-                <TextField variant="standard" label="Enter Email"></TextField>
+                <TextField
+                  variant="standard"
+                  label="Enter Email"
+                  onChange={(e) => onInputChange(e)}
+                  name="email"
+                ></TextField>
                 <TextField
                   variant="standard"
                   label="Enter Password"
                   onChange={(e) => onInputChange(e)}
                   name="password"
                 ></TextField>
-                <TextField
-                  variant="standard"
-                  label="Enter email"
-                  onChange={(e) => onInputChange(e)}
-                  name="email"
-                ></TextField>
+
                 <TextField
                   variant="standard"
                   label="Enter phone"
