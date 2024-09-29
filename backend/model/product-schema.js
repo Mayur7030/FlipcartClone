@@ -1,4 +1,5 @@
-import mongoose from "mongoose"; 
+import mongoose from "mongoose";
+
 const productSchema = new mongoose.Schema({
   id: {
     type: String,
@@ -12,9 +13,10 @@ const productSchema = new mongoose.Schema({
   quantity: Number,
   description: String,
   discount: String,
-  tagline: String, 
+  tagline: String,
 });
 
-mongoose.model("product", productSchema);
+// Define the model and export it
+const Product = mongoose.model("Product", productSchema);
 
-export default productSchema;
+export default Product;

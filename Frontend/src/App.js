@@ -1,7 +1,7 @@
-import Header from "./components/header/Header";
-import Home from "./components/home/Home";
+import Header from "./components/header/Header.jsx";
+import Home from "./components/home/Home.jsx";
 import { Box } from "@mui/material";
-import DataProvider from "./components/context/DataProvider";
+import DataProvider from "./components/context/DataProvider.jsx";
 
 function App() {
   return (

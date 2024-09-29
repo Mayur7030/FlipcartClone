@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as actionTypes from "../constants/productConstant";
+import * as actionTypes from "../constants/productConstant.js";
 
 const url = "http://localhost:8000";
 

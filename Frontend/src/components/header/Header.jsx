@@ -4,16 +4,18 @@ import Search from "./Search";
 import CustomButtons from "./CustomButtons";
 
 const StyledHeader = styled(AppBar)`
-  background: #284f0;
+  background: #2874f0;
   height: 55px;
 `;
 
 const Component = styled(Box)`
-margin-left:12%;
-line-height:0`;
+  margin-left: 12%;
+  line-height: 0;
+`;
 
 const SubHeading = styled(Typography)`
-  font-size: ;
+  font-size: 10px;
+  font-style: italic;
 `;
 const PlusImage = styled("img")({
   width: 10,
@@ -36,7 +38,7 @@ function Header() {
           <img src={logoURL} alt="logo" style={{ width: 75 }}></img>
           <Box style={{ display: "flex" }}>
             <SubHeading>
-              Explore
+              Explore&nbsp;
               <Box component="span" style={{ color: "#ffe500" }}>
                 Plus
               </Box>

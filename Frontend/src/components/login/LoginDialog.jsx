@@ -8,7 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import { authenticateSignUp, authenticateLogin } from "../service/api";
-import { DataContext } from "../context/DataProvider";
+import { DataContext } from "../context/DataProvider.jsx";
 
 const Component = styled(Box)`
   height: 70vh;
